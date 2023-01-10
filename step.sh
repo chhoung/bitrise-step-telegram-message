@@ -21,7 +21,7 @@ set -ex
 #  with a 0 exit code `bitrise` will register your Step as "successful".
 # Any non zero exit code will be registered as "failed" by `bitrise`.
 
-MESSAGE="🛑 *$BITRISE_APP_TITLE*: build $BITRISE_BUILD_NUMBER failed 😕 \nURL: $BITRISE_APP_URL\nCommit: $BITRISE_GIT_MESSAGE \n\n $custom_message"
+MESSAGE="🛑 Build failed, please check bitrise console for info *\n$custom_message\n"
 
 if [ $BITRISE_BUILD_STATUS -eq 0 ] ; then MESSAGE="$custom_message" ; fi
 
