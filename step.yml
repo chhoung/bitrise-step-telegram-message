@@ -1,0 +1,90 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  Send Telegram Message
+summary: |
+  Notify telegram group or chat on builds status.
+description: |
+  This step will send a message to the provided [telegram](https://core.telegram.org/bots) chat.
+  Includes the build status and download URL. You can also add a custom message to be sent with the notification.
+  This step always runs, no matter if build succeded or failed.
+website: https://github.com/mcaldas/bitrise-step-telegram-notify
+source_code_url: https://github.com/mcaldas/bitrise-step-telegram-notify
+support_url: https://github.com/mcaldas/bitrise-step-telegram-notify/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+# If this step should be available only for certain project types
+# just uncomment this `project_type_tags` section and include all the
+# project types supported by the step. If the step can be used for all
+# project types then you can just remove this section.
+# If no `project_type_tags` specified (or specified as an empty array)
+# that means the step can be used for any project type.
+# You can find more information about project type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+#
+# project_type_tags:
+#   - ios
+#   - macos
+#   - android
+#   - xamarin
+#   - react-native
+#   - cordova
+#   - ionic
+
+# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
+# You can find more information about type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+type_tags:
+  - notification
+
+is_requires_admin_user: false
+is_always_run: true
+is_skippable: true
+run_if: ""
+
+deps:
+  brew:
+  - name: curl
+  apt_get:
+  - name: curl
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+
+inputs:
+  - telegram_bot_token: $TELEGRAM_BOT_TOKEN
+    opts:
+      description: |
+        The bot token.
+        Can also be taken from env var `TELEGRAM_BOT_TOKEN`
+      is_required: true
+      is_sensitive: true
+      title: Telegram Bot Token
+  - telegram_chat_id: $TELEGRAM_CHAT_ID
+    opts:
+      description: |
+        The id of the chat notifications will be sent to.
+        Can also be taken from env var `TELEGRAM_CHAT_ID`
+      is_required: true
+      is_sensitive: true
+      title: Telegram Chat ID
+  - custom_message: $CUSTOM_MESSAGE
+    opts:
+      title: "Custom message"
+      description: |
+        Any info you would like to append to the message. 
+        It is sent both on succeeded and failed builds.
+      is_expand: true
+      is_required: false
+
