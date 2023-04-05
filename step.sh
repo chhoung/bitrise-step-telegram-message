@@ -21,7 +21,7 @@ set -ex
 #  with a 0 exit code `bitrise` will register your Step as "successful".
 # Any non zero exit code will be registered as "failed" by `bitrise`.
 
-MESSAGE="🛑 Build failed\n$custom_message"
+MESSAGE="$custom_message\nNote: Unable to read version number"
 
 if [ $BITRISE_BUILD_STATUS -eq 0 ] ; then MESSAGE="$custom_message" ; fi
 
